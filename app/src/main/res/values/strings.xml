@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">News</string>
+    <string name="toolbar_title">Headlines</string>
+    <string name="no_news">Sorry! cannot retrieve news right now</string>
 </resources>
