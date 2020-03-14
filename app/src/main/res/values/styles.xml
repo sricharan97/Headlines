@@ -11,4 +11,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="textStyle">
+        <item name="android:textAppearance">@android:style/TextAppearance.DeviceDefault.Medium
+        </item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+
 </resources>
