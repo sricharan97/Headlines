@@ -1,7 +1,10 @@
 package com.example.news;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.loader.content.Loader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +33,12 @@ public final class QueryUtils {
      * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
      */
 
+    /**
+     * Tag for the log messages
+     */
+    public static final String LOG_TAG = QueryUtils.class.getSimpleName();
+
+
     private QueryUtils() {
     }
 
@@ -42,8 +51,9 @@ public final class QueryUtils {
         URL url = null;
         try {
             url = new URL(stringUrl);
+            Log.e(LOG_TAG, "this is the created URL" + url.toString());
         } catch (MalformedURLException e) {
-            Toast.makeText(context, "Caught malformed URL" + e, Toast.LENGTH_SHORT).show();
+            Log.e(LOG_TAG, "An error occured in createUrl method");
         }
         return url;
     }
@@ -51,7 +61,7 @@ public final class QueryUtils {
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHtpRequest(Context context, URL url, String apiKey) throws IOException {
+    private static String makeHtpRequest(Context context, URL url) throws IOException {
         String jsonResponse = "";
         // If the URL is null, then return early.
         if (url == null) {
@@ -63,21 +73,22 @@ public final class QueryUtils {
 
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
+
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("X-Api-Key", apiKey);
+            //urlConnection.setRequestProperty("x-api-key", apiKey);
             urlConnection.connect();
             // then read the input stream and parse the response.
             if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Toast.makeText(context, "the response code from urlconnection is not successfuly", Toast.LENGTH_SHORT).show();
+                Log.e(LOG_TAG, "Bad HTTP response from URL requested :" + urlConnection.getResponseCode());
 
             }
         } catch (IOException io) {
-            Toast.makeText(context, "Problem retrieving JSOn results", Toast.LENGTH_SHORT).show();
+            Log.e(LOG_TAG, "Problem retrieving JSOn results :");
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -139,7 +150,7 @@ public final class QueryUtils {
                 newsItems.add(newsItem);
             }
         } catch (JSONException e) {
-            Toast.makeText(context, "Problem parsing JSON response", Toast.LENGTH_SHORT).show();
+            Log.e(LOG_TAG, "Problem parsing JSOn response inside extractNewsItems method");
         }
 
         return newsItems;
@@ -149,16 +160,15 @@ public final class QueryUtils {
      * Query the News API and return an ArrayList of NewsItem objects
      */
 
-    public static List<NewsItem> fetchNewsData(Context context, String requestUrl, String apiKey) {
+    public static List<NewsItem> fetchNewsData(Context context, String requestUrl) {
         //Create URL object
         URL url = createUrl(context, requestUrl);
         //Perform HTTP request to URL and receive a JSON response back
         String jsonResponse = null;
         try {
-            jsonResponse = makeHtpRequest(context, url, apiKey);
+            jsonResponse = makeHtpRequest(context, url);
         } catch (IOException e) {
-            Toast.makeText(context, "error making Http request", Toast.LENGTH_SHORT).show();
-
+            Log.e(LOG_TAG, "Error making Http request");
         }
 
         List<NewsItem> newsItems = extractNewsItems(context, jsonResponse);
