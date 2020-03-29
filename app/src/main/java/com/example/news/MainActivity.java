@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +14,7 @@ import android.content.Context;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -25,6 +28,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static android.widget.GridLayout.HORIZONTAL;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<NewsItem>> {
 
@@ -70,12 +75,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         newsList.setLayoutManager(layoutManager);
 
-        MyRecyclerViewAdapter adapter = new MyRecyclerViewAdapter(this, new ArrayList<NewsItem>());
+        // Get drawable object
+        //Drawable mDivider = ContextCompat.getDrawable(this, R.drawable.divider);
+
+
+        //add horizontal line between the items in recyclerview
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        //itemDecor.setDrawable(mDivider);
+        newsList.addItemDecoration(itemDecor);
+
+        adapter = new MyRecyclerViewAdapter(this, new ArrayList<NewsItem>());
 
         // Set the adapter on the recyclerVIew
         // so the list can be populated in the user interface
 
         newsList.setAdapter(adapter);
+
         mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
 
         if (isConnected) {
@@ -109,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // If there is a valid list of news items, then add them to the adapter's
         // data set. This will trigger the recyclerView to update.
         if (data != null && !data.isEmpty()) {
+            Log.e("inside the if condition", data.toString());
             adapter.setData(data);
             loadingSpinner.setVisibility(View.GONE);
         } else {

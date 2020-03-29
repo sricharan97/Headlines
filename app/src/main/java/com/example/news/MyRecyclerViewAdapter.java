@@ -17,10 +17,16 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
 
@@ -69,7 +75,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         final NewsItem currentItem = listItems.get(position);
         //Assign the values of your ArrayList to the assigned holder views
-        holder.itemCountView.setText(String.valueOf(position));
+        holder.itemCountView.setText(String.valueOf(position + 1 + "."));
         if (currentItem.getmSourceName() != null) {
             holder.sourceNameView.setText(currentItem.getmSourceName());
             holder.sourceNameView.setVisibility(View.VISIBLE);
@@ -85,19 +91,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         }
         holder.categoryTextView.setText("Headlines");
         if (currentItem.getmTimeString() != null) {
-            holder.timeView.setText(currentItem.getmTimeString());
+            holder.timeView.setText(getTime(currentItem.getmTimeString()));
             holder.timeView.setVisibility(View.VISIBLE);
         } else {
             holder.timeView.setVisibility(View.GONE);
         }
 
-        if (currentItem.getmImageURL() != null) {
-            ImageLoadAsyncTask task = new ImageLoadAsyncTask(holder.sourceImage);
-            task.execute(currentItem.getmImageURL());
-            holder.sourceImage.setVisibility(View.VISIBLE);
-        } else {
-            holder.sourceImage.setVisibility(View.GONE);
-        }
+        Glide.with(ctx).load(currentItem.getmImageURL()).centerCrop().into(holder.sourceImage);
 
 
     }
@@ -111,6 +111,46 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         this.listItems = listItems;
         notifyDataSetChanged();
     }
+
+    public String getTime(String timeString) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+        simpleDateFormat.setLenient(true);
+        String timeText = "";
+
+        try {
+            Date date = simpleDateFormat.parse(timeString);
+            long milliseconds = new Date().getTime() - date.getTime();
+            int minutes = (int) ((milliseconds / (1000 * 60)) % 60);
+            int hours = (int) ((milliseconds / (1000 * 60 * 60)) % 24);
+            if (hours > 0) {
+                if (hours == 1)
+                    timeText = "1 hour ago";
+                else if (hours < 24)
+                    timeText = String.valueOf(hours) + " hours ago";
+                else {
+                    int days = (int) Math.ceil(hours % 24);
+                    if (days == 1)
+                        timeText = "1 day ago";
+                    else
+                        timeText = String.valueOf(days) + " days ago";
+                }
+            } else {
+                if (minutes == 0)
+                    timeText = "less than 1 minute ago";
+                else if (minutes == 1)
+                    timeText = "1 minute ago";
+                else
+                    timeText = String.valueOf(minutes) + " minutes ago";
+            }
+
+        } catch (ParseException e) {
+            Log.e("time string parsing", e.toString());
+        }
+        return timeText;
+
+    }
+
 
     /**
      * define a static class {@link ViewHolder} which has the information on how to handle
@@ -163,36 +203,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     }
 
-    private static class ImageLoadAsyncTask extends AsyncTask<String, Void, Bitmap> {
 
-        private ImageView mImage;
-
-
-        private ImageLoadAsyncTask(ImageView image) {
-            mImage = image;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-            Bitmap bitmap = null;
-            try {
-                URL url = new URL(strings[0]);
-                bitmap = BitmapFactory.decodeStream(url.openStream());
-            } catch (MalformedURLException m) {
-                Log.e("ImageLoadAsyncTask", "Malformed exception in image URL");
-            } catch (IOException e) {
-                Log.e("ImageLoadAsyncTask", "Cannot open the URL");
-            }
-            return bitmap;
-
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            mImage.setImageBitmap(bitmap);
-
-        }
-    }
 
 
 }

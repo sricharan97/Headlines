@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed"
             app:titleEnabled="false">
 
 
@@ -66,6 +66,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 app:layout_constraintStart_toStartOf="parent"
+                android:scrollbars="vertical"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Empty view is only visible when the list has no items. -->
