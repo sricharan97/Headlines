@@ -46,7 +46,7 @@ public final class QueryUtils {
     /**
      * Returns new URL object from the given string URL.
      */
-    private static URL createUrl(Context context, String stringUrl) {
+    private static URL createUrl(String stringUrl) {
 
         URL url = null;
         try {
@@ -61,7 +61,7 @@ public final class QueryUtils {
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHtpRequest(Context context, URL url) throws IOException {
+    private static String makeHtpRequest(URL url) throws IOException {
         String jsonResponse = "";
         // If the URL is null, then return early.
         if (url == null) {
@@ -73,10 +73,10 @@ public final class QueryUtils {
 
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
+            urlConnection.setDoInput(true);
             //urlConnection.setRequestProperty("x-api-key", apiKey);
             urlConnection.connect();
             // then read the input stream and parse the response.
@@ -88,7 +88,7 @@ public final class QueryUtils {
 
             }
         } catch (IOException io) {
-            Log.e(LOG_TAG, "Problem retrieving JSOn results :");
+            Log.e(LOG_TAG, "Problem retrieving JSOn results :" + io);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -124,7 +124,7 @@ public final class QueryUtils {
      * parsing a JSON response.
      */
 
-    public static List<NewsItem> extractNewsItems(Context context, String jsonresponse) {
+    public static List<NewsItem> extractNewsItems(String jsonresponse) {
 
         //Create an empty ArrayList of newitems that we can add to
         List<NewsItem> newsItems = new ArrayList<>();
@@ -160,18 +160,18 @@ public final class QueryUtils {
      * Query the News API and return an ArrayList of NewsItem objects
      */
 
-    public static List<NewsItem> fetchNewsData(Context context, String requestUrl) {
+    public static List<NewsItem> fetchNewsData(String requestUrl) {
         //Create URL object
-        URL url = createUrl(context, requestUrl);
+        URL url = createUrl(requestUrl);
         //Perform HTTP request to URL and receive a JSON response back
         String jsonResponse = null;
         try {
-            jsonResponse = makeHtpRequest(context, url);
+            jsonResponse = makeHtpRequest(url);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error making Http request");
         }
 
-        List<NewsItem> newsItems = extractNewsItems(context, jsonResponse);
+        List<NewsItem> newsItems = extractNewsItems(jsonResponse);
 
         return newsItems;
     }

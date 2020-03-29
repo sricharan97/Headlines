@@ -32,8 +32,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     /**
      * Base URL to fetch data from NEWSAPI
      */
-    private static final String BASE_REQUEST_URL = "http://newsapi.org/v2/top-headlines?country=IN&apiKey=2b66531296074666bd3fbd6c03dce4c1";
-    //private static final String API_KEY = "2b66531296074666bd3fbd6c03dce4c1";
+    private static final String BASE_REQUEST_URL = "http://newsapi.org/v2/top-headlines";
+    private static final String API_KEY = "47c82aa4c9a34f219581c5b171b8c2dc";
     /**
      * Adapter for the list of news items
      */
@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Uri baseUri = Uri.parse(BASE_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        //uriBuilder.appendPath("top-headlines");
-        //uriBuilder.appendQueryParameter("country", "IN");
+        uriBuilder.appendQueryParameter("country", "IN");
+        uriBuilder.appendQueryParameter("apiKey", API_KEY);
         return new NewsLoader(this, uriBuilder.toString());
 
     }

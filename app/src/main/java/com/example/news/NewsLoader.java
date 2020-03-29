@@ -12,7 +12,6 @@ public class NewsLoader extends AsyncTaskLoader<List<NewsItem>> {
 
     private static final String LOG_TAG = NewsLoader.class.getName();
     private String mUrl;
-    private Context ctx;
     //private String mApiKey;
 
     /**
@@ -24,7 +23,6 @@ public class NewsLoader extends AsyncTaskLoader<List<NewsItem>> {
 
     public NewsLoader(Context ct, String url) {
         super(ct);
-        ctx = ct;
         mUrl = url;
         //mApiKey = apiKey;
 
@@ -38,9 +36,9 @@ public class NewsLoader extends AsyncTaskLoader<List<NewsItem>> {
         if (mUrl == null | mUrl == "") {
             return null;
         }
-        Log.v(LOG_TAG, "Inside the loadInBAckground method");
+        Log.v(LOG_TAG, "Inside the loadInBackground method");
         //Call fetchNews data in QueryUtils class
-        return QueryUtils.fetchNewsData(ctx, mUrl);
+        return QueryUtils.fetchNewsData(mUrl);
     }
 
     @Override
