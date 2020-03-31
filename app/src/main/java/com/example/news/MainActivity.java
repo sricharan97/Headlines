@@ -74,14 +74,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //use a linear layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         newsList.setLayoutManager(layoutManager);
-
-        // Get drawable object
-        //Drawable mDivider = ContextCompat.getDrawable(this, R.drawable.divider);
-
-
         //add horizontal line between the items in recyclerview
-        DividerItemDecoration itemDecor = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-        //itemDecor.setDrawable(mDivider);
+        ListItemDivider itemDecor = new ListItemDivider(this, LinearLayoutManager.VERTICAL, 48, 16);
         newsList.addItemDecoration(itemDecor);
 
         adapter = new MyRecyclerViewAdapter(this, new ArrayList<NewsItem>());

@@ -2,10 +2,9 @@ package com.example.news;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.net.Uri;
-import android.os.AsyncTask;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,11 +53,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
             @Override
             public void share(ImageView v, int position) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, listItems.get(position).getmSourceURL());
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
                 sendIntent.setType("text/plain");
-
+                sendIntent.putExtra(Intent.EXTRA_TEXT, listItems.get(position).getmSourceURL());
                 Intent shareIntent = Intent.createChooser(sendIntent, "Headlines");
                 v.getContext().startActivity(shareIntent);
 
@@ -166,6 +160,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         private TextView categoryTextView;
         private TextView timeView;
         private ImageView sourceImage;
+        private ImageView shareImage;
         //private ImageView shareImage;
         private ConstraintLayout constraintLayout;
 
@@ -179,17 +174,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             categoryTextView = v.findViewById(R.id.category_text);
             timeView = v.findViewById(R.id.time_text);
             sourceImage = v.findViewById(R.id.source_image);
-            //shareImage = v.findViewById(R.id.share_image) ;
+            shareImage = v.findViewById(R.id.share_image);
             v.setOnClickListener(this);
+            shareImage.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            if (v instanceof ConstraintLayout) {
-                mListener.onView(v, getAdapterPosition());
-            } else if (v instanceof ImageView) {
+            if (v.getId() == shareImage.getId()) {
                 mListener.share((ImageView) v, getAdapterPosition());
+            } else if (v instanceof ConstraintLayout) {
+                mListener.onView(v, getAdapterPosition());
             }
+
 
         }
 
