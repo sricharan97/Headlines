@@ -2,4 +2,11 @@
     <string name="app_name">News</string>
     <string name="toolbar_title">Headlines</string>
     <string name="no_news">Sorry! cannot retrieve news right now</string>
+    <string name="source_image_contentDescription">Image for the particular article from the internet</string>
+    <string name="share_image_contentDescription">share_vector_asset</string>
+
+    <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
+    <string name="settings_menu_item">Settings</string>
+    <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
+    <string name="settings_title">Settings</string>
 </resources>

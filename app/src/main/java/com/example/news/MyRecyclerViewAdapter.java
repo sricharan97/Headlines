@@ -3,6 +3,8 @@ package com.example.news;
 import android.content.Context;
 import android.content.Intent;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 
 import android.util.Log;
@@ -17,6 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -91,7 +94,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.timeView.setVisibility(View.GONE);
         }
 
-        Glide.with(ctx).load(currentItem.getmImageURL()).centerCrop().into(holder.sourceImage);
+        Glide.with(ctx).load(currentItem.getmImageURL()).placeholder(new ColorDrawable(Color.BLACK)).error(R.drawable.errorimage).centerCrop().into(holder.sourceImage);
 
 
     }

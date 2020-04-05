@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/constraint_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:background="?android:attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/item_count"
-        style="@style/textStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
-        android:text="1."
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1" />
 
     <TextView
         android:id="@+id/source_name"
-        style="@style/textStyle"
+        style="@style/news_source"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Times of india"
-        android:textStyle="italic"
         app:layout_constraintBaseline_toBaselineOf="@+id/item_count"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline1" />
+        app:layout_constraintStart_toStartOf="@+id/guideline1"
+        tools:text="THE HINDU" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
@@ -43,15 +43,15 @@
 
     <TextView
         android:id="@+id/title_text"
-        style="@style/textStyle"
+        style="@style/news_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
-        android:text="At this point you are ready to start modifying your GradientDrawable. Here are a few examples"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/source_name" />
+        app:layout_constraintTop_toBottomOf="@+id/source_name"
+        tools:text="Sample title content with no relevance" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -63,28 +63,33 @@
 
     <TextView
         android:id="@+id/category_text"
+        style="@style/overline_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Headlines"
         app:layout_constraintStart_toStartOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/title_text" />
+        app:layout_constraintTop_toBottomOf="@+id/title_text"
+        tools:text="Headlines" />
 
     <TextView
         android:id="@+id/time_text"
+        style="@style/overline_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="48dp"
-        android:text="2 hours ago"
         app:layout_constraintBaseline_toBaselineOf="@+id/category_text"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/category_text" />
+        app:layout_constraintStart_toEndOf="@+id/category_text"
+        tools:text="2 hours ago" />
 
     <ImageView
         android:id="@+id/source_image"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_marginBottom="24dp"
+        android:contentDescription="@string/source_image_contentDescription"
+        app:layout_constraintBottom_toTopOf="@+id/share_image"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toTopOf="@+id/source_name" />
 
@@ -92,8 +97,7 @@
         android:id="@+id/share_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:clickable="true"
+        android:contentDescription="@string/share_image_contentDescription"
         app:layout_constraintBottom_toBottomOf="@+id/time_text"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:srcCompat="@drawable/ic_share24dp" />
