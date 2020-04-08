@@ -1,12 +1,76 @@
 <resources>
-    <string name="app_name">News</string>
+    <string name="app_name">Headlines</string>
     <string name="toolbar_title">Headlines</string>
-    <string name="no_news">Sorry! cannot retrieve news right now</string>
+    <string name="no_news">Sorry! cannot retrieve news right now. Please check your internet connection</string>
     <string name="source_image_contentDescription">Image for the particular article from the internet</string>
     <string name="share_image_contentDescription">share_vector_asset</string>
+    <string name="empty_state_text">No news articles have been retrieved </string>
 
     <!-- Settings Menu Item [CHAR LIMIT=NONE] -->
     <string name="settings_menu_item">Settings</string>
     <!-- Settings Activity Title [CHAR LIMIT=NONE] -->
     <string name="settings_title">Settings</string>
+
+    <!--Strings for type of News preference -->
+    <string name="settings_type_of_news_label">Type of news</string>
+    <string name="settings_type_of_news_key" translatable="false">news_type</string>
+    <string name="settings_type_of_news_default" translatable="false">@string/settings_choose_headlines_value</string>
+
+    <!-- strings for type of news headlines options -->
+    <string name="settings_choose_headlines_label">Headlines</string>
+    <string name="settings_choose_headlines_value">top-headlines</string>
+
+    <!-- strings for type of news everything options -->
+    <string name="settings_choose_everything_label">Everything</string>
+    <string name="settings_choose_everything_value">everything</string>
+
+    <!-- strings for country preference -->
+    <string name="settings_headlines_country_label">Country</string>
+    <string name="settings_headlines_country_key" translatable="false">countryKey</string>
+    <string name="settings_headlines_country_default" translatable="false">@string/india</string>
+
+    <!-- strings for category preferences -->
+    <string name="settings_headlines_category_label">Category</string>
+    <string name="settings_headlines_category_key">categoryKey</string>
+    <string name="settings_headlines_category_default" translatable="false">@string/general</string>
+
+    <!-- strings for sortBy preferences -->
+    <string name="settings_everything_sort_by_label">Sort by</string>
+    <string name="settings_everything_sort_by_key">sortKey</string>
+    <string name="settings_everything_sort_by_default">@string/settings_sort_by_published_at_value</string>
+
+    <!-- strings for sort by popularity option -->
+    <string name="settings_sort_by_popularity_label">Popularity</string>
+    <string name="settings_sort_by_popularity_value">popularity</string>
+
+    <!--strings for sort by publishedAt option -->
+    <string name="settings_sort_by_published_at_label">Date published</string>
+    <string name="settings_sort_by_published_at_value">publishedAt</string>
+
+    <!-- strings for country_values -->
+    <string name="australia">au</string>
+    <string name="canada">ca</string>
+    <string name="france">fr</string>
+    <string name="germany">de</string>
+    <string name="italy">it</string>
+    <string name="india">in</string>
+    <string name="united_kingdom">gb</string>
+    <string name="japan">jp</string>
+    <string name="united_states">us</string>
+
+    <string name="south_africa">za</string>
+
+    <!-- strings for headlines_categories_values -->
+    <string name="business">business</string>
+    <string name="entertainment">entertainment</string>
+    <string name="general">general</string>
+    <string name="science">science</string>
+    <string name="sports">sports</string>
+    <string name="health">health</string>
+    <string name="technology">technology</string>
+
+    <string name="page_size_label">Page Size</string>
+    <string name="page_size_default">20</string>
+    <string name="page_size_key">pageSize</string>
+
 </resources>

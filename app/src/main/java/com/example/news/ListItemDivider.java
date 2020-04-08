@@ -8,15 +8,14 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ListItemDivider extends RecyclerView.ItemDecoration {
 
-    public static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
-    public static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
+    private static final int VERTICAL_LIST = LinearLayoutManager.VERTICAL;
+    private static final int HORIZONTAL_LIST = LinearLayoutManager.HORIZONTAL;
     private static final int[] ATTRS = new int[]{
             android.R.attr.listDivider
     };

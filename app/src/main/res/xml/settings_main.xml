@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:title="@string/settings_title">
+
+    <ListPreference
+        app:defaultValue="@string/india"
+        app:entries="@array/settings_headlines_country_labels"
+        app:entryValues="@array/settings_headlines_country_values"
+        app:key="@string/settings_headlines_country_key"
+        app:title="@string/settings_headlines_country_label" />
+
+    <ListPreference
+        app:defaultValue="@string/settings_headlines_category_default"
+        app:entries="@array/settings_headlines_categories_labels"
+        app:entryValues="@array/settings_headlines_categories_values"
+        app:key="@string/settings_headlines_category_key"
+        app:title="@string/settings_headlines_category_label" />
+
+    <ListPreference
+        app:defaultValue="@string/page_size_default"
+        app:entries="@array/page_size_values"
+        app:entryValues="@array/page_size_values"
+        app:key="@string/page_size_key"
+        app:title="@string/page_size_label" />
+
+
+</androidx.preference.PreferenceScreen>

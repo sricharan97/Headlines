@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="settings_headlines_country_labels">
+        <item>Australia</item>
+        <item>Canada</item>
+        <item>France</item>
+        <item>Germany</item>
+        <item>India</item>
+        <item>Italy</item>
+        <item>Japan</item>
+        <item>South Africa</item>
+        <item>United Kingdom</item>
+        <item>United States</item>
+
+
+    </string-array>
+
+    <string-array name="settings_headlines_country_values">
+        <item>@string/australia</item>
+        <item>@string/canada</item>
+        <item>@string/france</item>
+        <item>@string/germany</item>
+        <item>@string/india</item>
+        <item>@string/italy</item>
+        <item>@string/japan</item>
+        <item>@string/south_africa</item>
+        <item>@string/united_kingdom</item>
+        <item>@string/united_states</item>
+
+
+    </string-array>
+
+
+    <string-array name="settings_headlines_categories_labels">
+        <item>Business</item>
+        <item>Entertainment</item>
+        <item>General</item>
+        <item>Health</item>
+        <item>Sports</item>
+        <item>Science</item>
+        <item>Technology</item>
+    </string-array>
+
+    <string-array name="settings_headlines_categories_values">
+        <item>@string/business</item>
+        <item>@string/entertainment</item>
+        <item>@string/general</item>
+        <item>@string/health</item>
+        <item>@string/sports</item>
+        <item>@string/science</item>
+        <item>@string/technology</item>
+    </string-array>
+
+    <string-array name="page_size_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+    </string-array>
+
+</resources>

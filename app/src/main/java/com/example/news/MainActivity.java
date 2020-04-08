@@ -4,8 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,22 +13,21 @@ import android.content.Context;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import static android.widget.GridLayout.HORIZONTAL;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<NewsItem>> {
 
@@ -38,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * Base URL to fetch data from NEWSAPI
      */
     private static final String BASE_REQUEST_URL = "http://newsapi.org/v2/top-headlines";
-    private static final String API_KEY = "47c82aa4c9a34f219581c5b171b8c2dc";
+    //private static final String API_KEY = "47c82aa4c9a34f219581c5b171b8c2dc";
     /**
      * Adapter for the list of news items
      */
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+
         //Check whether the phone is connected to the internet
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 activeNetwork.isConnectedOrConnecting();
 
         //find a reference to the Progress bar
-        loadingSpinner = (ProgressBar) findViewById(R.id.loading_spinner);
+        loadingSpinner = findViewById(R.id.loading_spinner);
 
         RecyclerView newsList = findViewById(R.id.recycler_view);
         //use a linear layout manager
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         newsList.setAdapter(adapter);
 
-        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        mEmptyStateTextView = findViewById(R.id.empty_view);
 
         if (isConnected) {
             getSupportLoaderManager().initLoader(1, null, this);
@@ -104,10 +103,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<NewsItem>> onCreateLoader(int id, @Nullable Bundle args) {
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String country = sharedPrefs.getString(getString(R.string.settings_headlines_country_key),
+                getString(R.string.settings_headlines_country_default));
+
+        String category = sharedPrefs.getString(getString(R.string.settings_headlines_category_key),
+                getString(R.string.settings_headlines_category_default));
+        String pageSize = sharedPrefs.getString(getString(R.string.page_size_key), getString(R.string.page_size_default));
+
         Uri baseUri = Uri.parse(BASE_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter("country", "IN");
-        uriBuilder.appendQueryParameter("apiKey", API_KEY);
+        uriBuilder.appendQueryParameter("country", country);
+        uriBuilder.appendQueryParameter("category", category);
+        uriBuilder.appendQueryParameter("pageSize", pageSize);
+
         return new NewsLoader(this, uriBuilder.toString());
 
     }
@@ -123,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             loadingSpinner.setVisibility(View.GONE);
         } else {
             // Set empty state text to display "No earthquakes found."
-            mEmptyStateTextView.setText("No news items are found");
+            mEmptyStateTextView.setText(getString(R.string.empty_state_text));
         }
 
     }
@@ -133,6 +143,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Loader reset, so we can clear out our existing data.
         adapter.setData(null);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
 
     }
 }

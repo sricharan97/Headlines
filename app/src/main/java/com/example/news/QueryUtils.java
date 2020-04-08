@@ -1,10 +1,8 @@
 package com.example.news;
 
-import android.content.Context;
+import android.net.Uri;
+import android.nfc.Tag;
 import android.util.Log;
-import android.widget.Toast;
-
-import androidx.loader.content.Loader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,9 +29,7 @@ public final class QueryUtils {
      * Create a private constructor because no one should ever create a {@link QueryUtils} object.
      * This class is only meant to hold static variables and methods, which can be accessed
      * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
-     */
-
-    /**
+     * <p>
      * Tag for the log messages
      */
     public static final String LOG_TAG = QueryUtils.class.getSimpleName();
@@ -76,6 +72,7 @@ public final class QueryUtils {
             urlConnection.setReadTimeout(10000);
             urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
+            urlConnection.setRequestProperty("X-Api-Key", BuildConfig.apikey);
             urlConnection.setDoInput(true);
             //urlConnection.setRequestProperty("x-api-key", apiKey);
             urlConnection.connect();
@@ -171,9 +168,9 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Error making Http request");
         }
 
-        List<NewsItem> newsItems = extractNewsItems(jsonResponse);
+        return extractNewsItems(jsonResponse);
 
-        return newsItems;
+
     }
 
 }
