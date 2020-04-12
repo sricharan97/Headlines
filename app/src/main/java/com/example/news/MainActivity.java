@@ -19,7 +19,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,20 +30,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<NewsItem>> {
 
-    public static final String LOG_TAG = MainActivity.class.getName();
-    /**
-     * Base URL to fetch data from NEWSAPI
-     */
+    //Base URL to fetch data from NEWS API
     private static final String BASE_REQUEST_URL = "http://newsapi.org/v2/top-headlines";
-    //private static final String API_KEY = "47c82aa4c9a34f219581c5b171b8c2dc";
-    /**
-     * Adapter for the list of news items
-     */
+
+    //Recycler view Adapter for the list of news items
     private MyRecyclerViewAdapter adapter;
-    /**
-     * TextView that is displayed when the list is empty
-     */
+
+    //Empty state text view that notifies user when there is neither internet connection nor news items to be displayed
     private TextView mEmptyStateTextView;
+
+    //Spinner widget used until news items are retrieved from the API
     private ProgressBar loadingSpinner;
 
     @Override
@@ -54,11 +49,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // Find the toolbar view inside the activity layout
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         // Sets the Toolbar to act as the ActionBar for this Activity window.
-        // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-
 
         //Check whether the phone is connected to the internet
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -69,34 +63,42 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //find a reference to the Progress bar
         loadingSpinner = findViewById(R.id.loading_spinner);
 
-        RecyclerView newsList = findViewById(R.id.recycler_view);
+        //find a reference to the Recycler View
+        RecyclerView newsRecyclerView = findViewById(R.id.recycler_view);
+
         //use a linear layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        newsList.setLayoutManager(layoutManager);
-        //add horizontal line between the items in recyclerview
-        ListItemDivider itemDecor = new ListItemDivider(this, LinearLayoutManager.VERTICAL, 48, 16);
-        newsList.addItemDecoration(itemDecor);
+        newsRecyclerView.setLayoutManager(layoutManager);
 
+        //add horizontal line between the items in the recyclerview
+        ListItemDivider itemDecor = new ListItemDivider(this, LinearLayoutManager.VERTICAL, 48, 16);
+        newsRecyclerView.addItemDecoration(itemDecor);
+
+        //Create a new Recyclerview adapter by passing a new array list of NewsItems
         adapter = new MyRecyclerViewAdapter(this, new ArrayList<NewsItem>());
 
         // Set the adapter on the recyclerVIew
         // so the list can be populated in the user interface
+        newsRecyclerView.setAdapter(adapter);
 
-        newsList.setAdapter(adapter);
-
+        //Find a reference to the empty state textview
         mEmptyStateTextView = findViewById(R.id.empty_view);
 
+        //initialize the loader if connected to the internet
         if (isConnected) {
             getSupportLoaderManager().initLoader(1, null, this);
-            newsList.setVisibility(View.VISIBLE);
-            mEmptyStateTextView.setVisibility(View.GONE);
 
         } else {
             loadingSpinner.setVisibility(View.GONE);
-            newsList.setVisibility(View.GONE);
+            newsRecyclerView.setVisibility(View.GONE);
             mEmptyStateTextView.setVisibility(View.VISIBLE);
-
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportLoaderManager().restartLoader(1, null, this);
     }
 
     @NonNull
@@ -104,23 +106,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<List<NewsItem>> onCreateLoader(int id, @Nullable Bundle args) {
 
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
         String country = sharedPrefs.getString(getString(R.string.settings_headlines_country_key),
                 getString(R.string.settings_headlines_country_default));
-
         String category = sharedPrefs.getString(getString(R.string.settings_headlines_category_key),
                 getString(R.string.settings_headlines_category_default));
         String pageSize = sharedPrefs.getString(getString(R.string.page_size_key), getString(R.string.page_size_default));
-
         Uri baseUri = Uri.parse(BASE_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("country", country);
         uriBuilder.appendQueryParameter("category", category);
         uriBuilder.appendQueryParameter("pageSize", pageSize);
-
         return new NewsLoader(this, uriBuilder.toString());
-
     }
+
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<NewsItem>> loader, List<NewsItem> data) {
@@ -128,14 +126,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // If there is a valid list of news items, then add them to the adapter's
         // data set. This will trigger the recyclerView to update.
         if (data != null && !data.isEmpty()) {
-            Log.e("inside the if condition", data.toString());
             adapter.setData(data);
             loadingSpinner.setVisibility(View.GONE);
         } else {
             // Set empty state text to display "No earthquakes found."
             mEmptyStateTextView.setText(getString(R.string.empty_state_text));
         }
-
     }
 
     @Override

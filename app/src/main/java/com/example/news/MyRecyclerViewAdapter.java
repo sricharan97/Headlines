@@ -33,7 +33,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private Context ctx;
     private List<NewsItem> listItems;
 
-    //Constructor
+    /**
+     * Constructor for the recylcerView adapter
+     *
+     * @param ct    get the context of the application from the main activity
+     * @param items get the data to be displayed from loader's onLoadFinished callback
+     */
 
     public MyRecyclerViewAdapter(Context ct, List<NewsItem> items) {
 
@@ -47,6 +52,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         final LayoutInflater inflater = LayoutInflater.from(ctx);
         View view = inflater.inflate(R.layout.list_item, parent, false);
         return new ViewHolder(view, new ViewHolder.RecyclerViewClickListener() {
+
+            /**
+             * this method gets called when user touches on the news item
+             */
             @Override
             public void onView(View v, int position) {
                 Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -54,6 +63,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 v.getContext().startActivity(intent);
             }
 
+            /** this method gets called when the user touches on the share button and using
+             *  android sharesheet shares the data through user selected application
+             */
             @Override
             public void share(ImageView v, int position) {
                 Intent sendIntent = new Intent(Intent.ACTION_SEND);
@@ -97,8 +109,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             holder.timeView.setVisibility(View.GONE);
         }
 
+        //Glide includes the null check in the library itself. so no need of it in the code
         Glide.with(ctx).load(currentItem.getmImageURL()).placeholder(new ColorDrawable(Color.BLACK)).error(R.drawable.error_image).centerCrop().into(holder.sourceImage);
-
 
     }
 
@@ -107,11 +119,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return listItems.size();
     }
 
+
+    /**
+     * used to notify when the adapter data changes
+     */
     public void setData(List<NewsItem> listItems) {
         this.listItems = listItems;
         notifyDataSetChanged();
     }
 
+    /**
+     * method to modify the published time string to time ago format
+     */
     private String getTime(String timeString) {
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
@@ -124,7 +143,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             timeText = DateUtils.getRelativeTimeSpanString(milliseconds, System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS).toString();
 
         } catch (ParseException e) {
-            Log.e("time string parsing", e.toString());
+            Log.e("Parsing in time string", e.toString());
         }
         return timeText;
 

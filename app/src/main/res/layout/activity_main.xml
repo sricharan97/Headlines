@@ -65,8 +65,8 @@
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                app:layout_constraintStart_toStartOf="parent"
                 android:scrollbars="vertical"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <!-- Empty view is only visible when the list has no items. -->
@@ -79,9 +79,9 @@
                 android:paddingStart="48dp"
                 android:paddingEnd="32dp"
 
-                android:visibility="gone"
                 android:text="@string/no_news"
                 android:textAppearance="?android:textAppearanceMedium"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

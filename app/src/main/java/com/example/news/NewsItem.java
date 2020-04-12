@@ -1,23 +1,24 @@
 package com.example.news;
 
 public class NewsItem {
+
     /**
      * Member variables
      */
 
-    //Variable to hold the source name
+    //Variable to hold the source name of the news
     private String mSourceName;
 
     //variable to hold the news title
     private String mNewsTitle;
 
-    //variable to hold the elapsed time details since the story got published
+    //variable to hold the published time of the story
     private String mTimeString;
 
     //variable to hold the url to image
     private String mImageURL;
 
-    //variable to hold the url to news source
+    //variable to hold the url to source domain
     private String mSourceURL;
 
     /**

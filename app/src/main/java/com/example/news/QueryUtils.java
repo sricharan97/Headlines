@@ -1,7 +1,5 @@
 package com.example.news;
 
-import android.net.Uri;
-import android.nfc.Tag;
 import android.util.Log;
 
 import org.json.JSONArray;
