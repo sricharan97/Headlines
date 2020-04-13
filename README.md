@@ -12,7 +12,6 @@ This project had been started with intention to learn following important featur
 
 # Screenshots
 
-**MainActicity Screenshots**
 <img src="/Screenshots/HomeScreen1.png" width="200" align="center" border="30"> 
 
 
@@ -21,8 +20,9 @@ This project had been started with intention to learn following important featur
 
 <img src="/Screenshots/HomeScreen3.png" width="200" align="center" border="30"> 
 
-**SettingsActivity Screenshots**
+
 <img src="/Screenshots/settingsScreen.png" width="200" align="center" border="30"> 
+
 
 # Video Walkthrough
 
