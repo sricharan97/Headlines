@@ -8,12 +8,16 @@ This project had been started with intention to learn following important featur
 * Updating information regularly
 * Doing network operations independent of the Activity lifecycle
 
+
+
 # Screenshots
 
 **MainActicity Screenshots**
 <img src="/Screenshots/HomeScreen1.png" width="200" align="center" border="30"> 
 
+
 <img src="/Screenshots/HomeScreen2.png" width="200" align="center" border="30"> 
+
 
 <img src="/Screenshots/HomeScreen3.png" width="200" align="center" border="30"> 
 
@@ -40,6 +44,8 @@ alt="Click to watch the video" width="150"  border="30" /></a>
 * Different fonts for article's title and source name 
 * Custom Divider line between recyclerview list items
 
+
+
 # Android components used
 
 * Constraint layout
@@ -54,10 +60,13 @@ alt="Click to watch the video" width="150"  border="30" /></a>
 * Menu
 
 
+
+
 # Third party libraries used
 
 * Glide for retrieving images and working with them
 * Newsapi.org as API (Free for developers version)
+
 
 
 
